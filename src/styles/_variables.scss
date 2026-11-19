@@ -1,10 +1,13 @@
 // ---------- Tokens ----------
-$bg-gradient-start: rgba(200,192,181,1);
-$bg-gradient-end: rgba(229,223,218,1);
+$bg-color: rgba(15, 35, 45, 1);
+$bg-gradient-start: rgba(200, 192, 181, 1);
+$bg-gradient-end: rgba(229, 223, 218, 1);
 $bg-gradient-angle: 45deg;
 
-$text-color: rgb(3,3,3);
-$text-color-inverse: rgba(250,250,250,1);
+$text-color: rgb(3, 3, 3);
+$text-color-inverse: rgba(250, 250, 250, 1);
+
+$primary-light: rgba(119, 153, 171, 1);
 $primary-dark: rgba(33, 58, 71, 1);
 
 $page-font-stack: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial,
@@ -12,3 +15,10 @@ $page-font-stack: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial
 
 $logo-max-width: 260px;
 $lockers-row-max-width: 1440px;
+
+// ---------- Sign-up form ----------
+$form-field-bg: rgba(53, 53, 53, 1);
+$form-placeholder: rgba(153, 153, 153, 1);
+$form-border: rgba(255, 255, 255, 0.45);
+$form-divider: rgba(255, 255, 255, 0.8);
+$form-button-bg: rgba(0, 0, 0, 1);

@@ -20,8 +20,7 @@ body {
 body {
     color: $text-color;
     font-family: $page-font-stack;
-    line-height: 1.5;
-    background-color: $primary-dark;
+    background-color: $bg-color;
     padding: 0;
     margin: 0;
     -webkit-font-smoothing: antialiased;
@@ -34,6 +33,15 @@ img {
 }
 
 // ---------- Home page ----------
+div.site-border {
+    width: 1492px;
+    background-color: $primary-dark;
+    padding: 25px;
+    border-left: 3px solid white;
+    border-right: 3px solid white;
+    margin: 0 auto;
+}
+
 main {
     position: relative;
     display: flex;
@@ -41,7 +49,6 @@ main {
     // align-items: stretch;
     align-items: center;
     justify-content: flex-start;
-    gap: 2.5rem;
     width: 1442px;
     min-height: 100vh;
     // 45deg runs bottom-left -> top-right, so the darker tone sits at the bottom.
@@ -59,12 +66,38 @@ header {
     width: 100%;
     // max-width: $logo-max-width;
     text-align: center;
-    padding: 1rem;
+    padding-top: 1rem;
     z-index: 99;
 
     h1 {
         color: $text-color;
+        margin: 0;
+        padding: 0;
     }
+}
+
+.logo {
+    max-width: $logo-max-width;
+    margin: 0 auto;
+}
+
+.graffiti {
+    position: absolute;
+    top: 50px;
+    right: 100px;
+    z-index: 10;
+    transform-origin: right top;
+    transform: scale(0.5);
+}
+
+.lockers-row {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: $lockers-row-max-width;
+    padding: 0;
+    margin: 0;
+    z-index: 99;
 }
 
 section {
@@ -74,32 +107,75 @@ section {
 }
 
 section.banner {
+    display: flexbox;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     background-color: $primary-dark;
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid purple;
 
     h1, h2, h3 {
         color: $text-color-inverse;
     }
 }
 
-.logo {
-    max-width: $logo-max-width;
-    margin: 0 auto;
+section.banner div.beta-cta {
+    display: flexbox;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 1px solid purple;
 }
 
-.lockers-row {
-    width: 100%;
-    height: auto;
-    max-width: $lockers-row-max-width;
-    display: block;
-    z-index: 99;
+section.banner h2 {
+    width: 60%;
+    line-height: 2.5rem;
 }
 
-.graffiti {
-    position: absolute;
-    top: 50px;
-    right: 50px;
-    z-index: 10;
+section.loqr-types {
+    color: $text-color-inverse;
+    background-color: $primary-light;
+}
+
+section.loqr-types .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 80vw;
+    max-width:600px;
+    border: 1px solid red;
+}
+
+section.loqr-types .feature img {
+    transform: scale(0.6);
+}
+
+section.loqr-types .feature p {
+    font-family: "IBM Plex Serif", "Georgia", serif;
+    text-align: center;
+}
+
+section.mission {
+    color: $text-color-inverse;
+    background-color: $primary-light;
+}
+
+section.mission p {
+    font-family: "IBM Plex Serif", "Georgia", serif;
+    font-weight: bold;
+    max-width: 65ch;
+    margin: 0 auto 1rem;
+}
+
+section.mission h4 {
+    max-width: 65ch;
+    text-align: center;
+    margin: 0 auto 1rem;
 }
 
 // ---------- How it works guide ----------
@@ -114,6 +190,7 @@ section.banner {
     align-items: flex-start;
     gap: 2rem;
     max-width: 1442px;
+    padding: 1rem;
     margin: 0 auto;
 }
 
@@ -146,4 +223,17 @@ section.banner {
         margin: 0;
         text-align: center;
     }
+}
+
+// ---------- Sign-up form ----------
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
 }

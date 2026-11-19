@@ -1,4 +1,8 @@
 ---
+import LockersRow from '@components/LockersRow.astro'
+import SignUp from '@components/SignUp.astro';
+import '@drop-in/graffiti'
+import "@drop-in/graffiti/themes/lumen";
 import '../styles/house.scss';
 ---
 
@@ -17,7 +21,8 @@ import '../styles/house.scss';
 		<meta name="generator" content={Astro.generator} />
 		<title>LOQRS</title>
 	</head>
-	<body>
+	<body class="theme-lumen">
+	<div class="site-border">
 		<main>
 			<header>
 			    <div class="logo">
@@ -26,7 +31,7 @@ import '../styles/house.scss';
 				<h1>Get a QR Locker</h1>
 			</header>
 			<section class="lockers-row">
-			    <img src="/images/lockers-row.png" alt="A row of lockers" width="1443" height="557" />
+			    <LockersRow />
 			</section>
 			<section class="banner">
 			    <h1>How does it work?</h1>
@@ -57,15 +62,42 @@ import '../styles/house.scss';
 			    </div>
 			</section>
 			<section class="banner">
-			    <h2>Give us your email one time and we will send you a coupon for a free web locker when we launch!</h2>
+			    <div class="beta-cta">
+			        <h2>Give us your email one time and we will send you a coupon for a free web locker when we launch!</h2>
+					<SignUp />
+				</div>
 			</section>
-			<section>
-			    <h1>FORM</h1>
+			<section class="loqr-types">
+			    <div class="feature">
+					<div class="sticker"><img src="/images/sticker-one-time-use.png" /></div>
+					<h4>This locker will self-destruct!</h4>
+					<p>Store your digital stuff in a locker and after anyone accesses it, the contents disppear! (Or set the number of tries.)</p>
+				</div>
+				<div class="feature">
+				    <div class="sticker"><img src="/images/sticker-public-trove.png" /></div>
+					<h4>One solution, everybody wins!</h4>
+					<p>Store your digital treasure in a locker and after anyone accesses it, the contents will be available to everyone—great for games!</p>
+				</div>
+				<div class="feature">
+				    <div class="sticker"><img src="/images/sticker-device-paired.png" /></div>
+					<h4>Personal storage on your device.</h4>
+					<p>Store something in a locker that can only be accessed via QR scan on only the device that created the locker.</p>
+				</div>
+				<div class="feature">
+				    <div class="sticker"><ing src="/images/sticker-device-passphrase-linked.png"/></div>
+					<h4>Open seasame!</h4>
+					<p>Store your digital stuff in a locker and make sure no one can access it without the QR key AND a passphrase.</p>
+				</div>
+				<div class="feature">
+				    <div class="sticker"><img src="/images/sticker-time-lock.png"/></div>
+					<h4>Do not open until Christmas.</h4>
+					<p>Store any digital files in a locker and have it only be accessible with a QR key after a set time.</p>
+				</div>
 			</section>
 			<section class="banner">
 			    <h1>No But, Really, Seriously, what is this for anyway?</h1>
 			</section>
-			<section>
+			<section class="mission">
 			    <p>We like trading files for various reasons and sometimes the easiest way to do that is with a web page. But maybe you want to limit access to that page. Every sharing service we have run in to makes you create an account (or turn over other credentials) and turn over a credit card and charges recurring fees and then bombards you with emails about features you don’t care about for months.</p>
 				<p>This is a one-time servce. You pay us, we excrypt your files and give you the encryption key in the form of a QR code. It comes with some risks. If you lose your key, that’s it. We can’t get to your files. Our system is designed such that we can’t get to your files, which also means we don’t know whose files belong to whom. It’s kind of the idea. It’s a web locker. Forget the combination or lost the key… whoops.</p>
 				<p>But also… you don’t need to know who is getting the files if they have a key. You could give out ten keys to the same locker for a club or a class. You could have a store giveaway that takes place only at the store. You could distirbute music or book files that you don’t want freely available.</p>
@@ -75,5 +107,6 @@ import '../styles/house.scss';
 			    <img src="/images/graffiti.png" alt="Graffiti reads: No Accounts, No Passwords!" width="585" height="251" />
 			</div>
 		</main>
+	</div>
 	</body>
 </html>
