@@ -1,0 +1,149 @@
+@use '_variables' as *;
+@use '_typography';
+
+// ---------- Base ----------
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    color: $text-color;
+    font-family: $page-font-stack;
+    line-height: 1.5;
+    background-color: $primary-dark;
+    padding: 0;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+// ---------- Home page ----------
+main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    // align-items: stretch;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 2.5rem;
+    width: 1442px;
+    min-height: 100vh;
+    // 45deg runs bottom-left -> top-right, so the darker tone sits at the bottom.
+    background: linear-gradient(
+    $bg-gradient-angle,
+    $bg-gradient-start 0%,
+    $bg-gradient-end 100%
+    )
+    no-repeat fixed;
+    padding: 0;
+    margin: 0 auto;
+}
+
+header {
+    width: 100%;
+    // max-width: $logo-max-width;
+    text-align: center;
+    padding: 1rem;
+    z-index: 99;
+
+    h1 {
+        color: $text-color;
+    }
+}
+
+section {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+section.banner {
+    text-align: center;
+    background-color: $primary-dark;
+
+    h1, h2, h3 {
+        color: $text-color-inverse;
+    }
+}
+
+.logo {
+    max-width: $logo-max-width;
+    margin: 0 auto;
+}
+
+.lockers-row {
+    width: 100%;
+    height: auto;
+    max-width: $lockers-row-max-width;
+    display: block;
+    z-index: 99;
+}
+
+.graffiti {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    z-index: 10;
+}
+
+// ---------- How it works guide ----------
+.guide {
+    padding: 0 1rem;
+}
+
+.guide-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem;
+    max-width: 1442px;
+    margin: 0 auto;
+}
+
+.guide-step {
+    // 4 across on desktop; min-width forces wrapping to fewer columns on mobile.
+    flex: 1 1 0;
+    min-width: 260px;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+
+    .guide-number {
+        width: 100%;
+        max-width: 75px;
+    }
+
+    .guide-art {
+        // Fixed box + contain keeps the h4 captions aligned across columns
+        // even though the step graphics have differing aspect ratios.
+        width: 100%;
+        max-width: 280px;
+        height: 240px;
+        object-fit: contain;
+    }
+
+    h4 {
+        margin: 0;
+        text-align: center;
+    }
+}
