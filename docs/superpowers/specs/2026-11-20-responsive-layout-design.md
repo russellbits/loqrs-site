@@ -73,14 +73,23 @@ main {
 ```
 
 `div.site-border` has `padding: 25px` and 3px side borders, and the
-document uses `box-sizing: border-box`, so its content box is
-1492 - 50 - 6 = 1436px. `main` at `width: 100%` therefore resolves to
-1436px, not the 1442px it is set to today.
+document uses `box-sizing: border-box`, so its content box is its own
+width minus 56px. `main` at `width: 100%` therefore resolves to that
+content box, not the 1442px it is set to today.
 
-That 6px difference is a bug being fixed, not a regression: `main`'s
-fixed 1442px currently overflows its parent's 1436px content box by 6px.
-Desktop narrows by 6px as a result, and the locker row narrows from
-1440px to 1436px.
+The resulting widths depend on the viewport, because `site-border` is now
+capped at 1492px:
+
+| viewport | site-border | main |
+| --- | --- | --- |
+| 1492 and up | 1492px | 1436px |
+| 1442 | 1442px | 1386px |
+| 390 | 390px | 334px |
+
+That is a bug being fixed, not a regression: `main`'s fixed 1442px
+currently overflows its parent's content box by 6px even at wide
+viewports. Desktop narrows by 6px at 1492 and up, and by more at narrower
+desktop widths, because the page now fits instead of overflowing.
 
 Worth knowing: the page overflows today at every viewport, desktop
 included. At a 1442px viewport `site-border` is still 1492px, so
@@ -181,6 +190,7 @@ Graffiti stays. The only change is the component's own wrapper width:
 .input-group {
     width: 100%;          /* was: width: 1000px */
     max-width: 1000px;
+    margin-inline: auto;  /* centers the capped group */
 }
 ```
 
@@ -190,15 +200,26 @@ live. No graffiti overrides are added.
 
 ### 6. Two existing bugs fixed in passing
 
-Both are one-line fixes in code this work already touches.
+Both are small fixes in code this work already touches.
 
 - `house.scss:110` and `house.scss:126` set `display: flexbox`, which is
   not valid CSS and is ignored. `section.banner` and `div.beta-cta` are
   therefore `block`, and their `flex-direction` and `align-items`
   declarations do nothing. The headline centers only via `text-align`
-  inside a 60%-wide, left-positioned box. Changing both to `display: flex`
-  centers the headline box properly. This is an intentional desktop
-  change: the 60%-wide headline shifts from left-of-center to centered.
+  inside a 60%-wide, left-positioned box. The fix changes both to
+  `display: flex`, gives `div.beta-cta` `width: 100%` and
+  `align-items: stretch`, and gives `section.banner h2`
+  `margin-inline: auto`.
+
+  `width: 100%` on the wrapper is needed because a flex item under
+  `align-items: center` shrinks to fit its content, which would make the
+  input-group's `width: 100%` resolve against a shrinking parent.
+  `align-items: stretch` fills the wrapper instead, and
+  `margin-inline: auto` centers the 60%-wide headline box that stretch
+  would otherwise left-align.
+
+  This is an intentional desktop change: the headline box shifts from
+  left-of-center to centered.
 - The mobile headline needs full width. `section.banner h2` is
   `width: 60%`, which is cramped in a phone-width banner. A media query at
   `40rem` sets `width: 100%` for `section.banner h2`.
@@ -257,16 +278,17 @@ Not "looks right" — measured. Using `agent-browser` against the dev server:
 1. Viewport sweep at 320, 390, 768, 1024, 1442. At each width assert
    `document.documentElement.scrollWidth === window.innerWidth`.
 2. At each width, collect `.guide-step` `getBoundingClientRect().top`
-   values. Assert the count of distinct values is 4 at 1442 (four
-   columns), 3 at 1024 (three columns), 2 at 768 (two columns), and 1 at
-   390 and 320 (one column).
+   values. The count of distinct values is the number of rows. Assert 1
+   row at 1442 (four steps across), 2 rows at 1024 and 768, and 4 rows at
+   390 and 320.
 3. At 390 assert `.input-group` computed `flex-direction` is `column` and
    its width is less than the viewport width.
 4. At 390 assert the loaded locker source is the mobile composite: read
    `document.querySelector('.lockers-row img').currentSrc`.
 5. At 1442 assert the desktop composite is loaded and that the rendered
-   height is within 2px of `width * 809 / 1443`, confirming the composite
-   keeps its intrinsic ratio. At a 1436px row width that is 805px.
+   height is within 2px of `rowWidth * 809 / 1443`, confirming the
+   composite keeps its intrinsic ratio. At a 1386px row width that is
+   777px.
 6. At 390 and 320 assert `.graffiti`'s left edge is at or below 0, so the
    decoration is not cut off.
 7. Screenshot each width for a visual check.
