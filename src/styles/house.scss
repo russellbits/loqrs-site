@@ -34,7 +34,8 @@ img {
 
 // ---------- Home page ----------
 div.site-border {
-    width: 1492px;
+    width: 100%;
+    max-width: 1492px;
     background-color: $primary-dark;
     padding: 25px;
     border-left: 3px solid white;
@@ -49,7 +50,8 @@ main {
     // align-items: stretch;
     align-items: center;
     justify-content: flex-start;
-    width: 1442px;
+    width: 100%;
+    max-width: 1442px;
     min-height: 100vh;
     // 45deg runs bottom-left -> top-right, so the darker tone sits at the bottom.
     background: linear-gradient(
@@ -134,6 +136,17 @@ section.banner div.beta-cta {
 section.banner h2 {
     width: 60%;
     line-height: 2.5rem;
+}
+
+// A 5rem display face cannot fit a phone. The third banner's headline has a
+// single 478px word ("SERIOUSLY,") at 80px and the header's "LOCKER" is 327px,
+// both overflowing the content box. Reduce the scale below 40rem and allow a
+// long word to break as a safety net.
+@media (max-width: 40rem) {
+    h1 {
+        font-size: 2.5rem;
+        overflow-wrap: break-word;
+    }
 }
 
 section.loqr-types {
