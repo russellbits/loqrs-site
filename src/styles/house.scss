@@ -109,7 +109,7 @@ section {
 }
 
 section.banner {
-    display: flexbox;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -125,17 +125,21 @@ section.banner {
 }
 
 section.banner div.beta-cta {
-    display: flexbox;
+    display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    // stretch, not center: a centered flex item shrinks to its content, which
+    // would make the form's width:100% resolve against a shrinking parent.
+    align-items: stretch;
     text-align: center;
+    width: 100%;
     border: 1px solid purple;
 }
 
 section.banner h2 {
     width: 60%;
     line-height: 2.5rem;
+    margin-inline: auto;
 }
 
 // A 5rem display face cannot fit a phone. The third banner's headline has a
@@ -146,6 +150,11 @@ section.banner h2 {
     h1 {
         font-size: 2.5rem;
         overflow-wrap: break-word;
+    }
+
+    // A 60%-wide headline is cramped on a phone.
+    section.banner h2 {
+        width: 100%;
     }
 }
 
