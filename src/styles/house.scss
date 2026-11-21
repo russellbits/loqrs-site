@@ -100,6 +100,12 @@ header {
     padding: 0;
     margin: 0;
     z-index: 99;
+
+    // <picture> is inline by default; its child <img> is block, leaving a
+    // stray inline box on the wrapper.
+    picture {
+        display: block;
+    }
 }
 
 section {
