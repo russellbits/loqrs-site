@@ -208,9 +208,10 @@ section.mission h4 {
 }
 
 .guide-step {
-    // 4 across on desktop; min-width forces wrapping to fewer columns on mobile.
-    flex: 1 1 0;
-    min-width: 260px;
+    // 4 across on desktop; the 260px base forces wrapping to fewer columns.
+    // A base size can shrink, unlike the min-width it replaces, so a step now
+    // fits a 200px container instead of spilling past it.
+    flex: 1 1 260px;
     max-width: 320px;
     display: flex;
     flex-direction: column;
