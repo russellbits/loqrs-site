@@ -1,0 +1,240 @@
+```
+---
+import BetaSignUp from '@components/BetaSignUp.astro';
+
+interface Props {
+    /** Where a no-JS dismiss lands the page. Must NOT be #waitlist-dialog. */
+    closeHref?: string;
+}
+
+const { closeHref = '#' } = Astro.props;
+---
+
+<!--
+  A fullscreen popover dialog. The HTML Popover API supplies open/close,
+  Escape-to-dismiss, and the top layer.
+
+  Two ways in, two ways out:
+  1. The header button opens it declaratively with popovertarget="waitlist-dialog"
+     -> state is :popover-open; the popovertarget close button and Escape work.
+  2. The footer "SIGN UP" link uses href="#waitlist-dialog"
+     -> with JS off, that is a :target fallback, and a popovertarget button is
+        useless there (the popover was never opened), so dismissal needs a real
+        fragment navigation to a different id. Hence the anchor twins below.
+     With JS on, the script intercepts the click so the URL never carries a hash.
+
+  CSS shows exactly one dismiss control per state, so nothing is a dead end.
+-->
+<div
+    id="waitlist-dialog"
+    popover
+    class="waitlist-dialog"
+    role="dialog"
+    aria-label="Join the waitlist"
+>
+    <!-- Click-outside dismiss. An anchor rather than a button so the no-JS
+         :target path can actually close with it. Mouse-only affordance: the ×
+         links/buttons carry the accessible name. -->
+    <a
+        class="waitlist-dialog__scrim"
+        href={closeHref}
+        data-waitlist-close
+        tabindex="-1"
+        aria-hidden="true"
+    ></a>
+    <div class="waitlist-dialog__panel">
+        <a
+            class="waitlist-dialog__dismiss waitlist-dialog__dismiss--link"
+            href={closeHref}
+            data-waitlist-close
+            aria-label="Close"
+        >&times;</a>
+        <button
+            type="button"
+            class="waitlist-dialog__dismiss waitlist-dialog__dismiss--button"
+            popovertarget="waitlist-dialog"
+            popovertargetaction="hide"
+            aria-label="Close"
+        >&times;</button>
+        <BetaSignUp idPrefix="waitlist" />
+    </div>
+</div>
+
+<style>
+.waitlist-dialog[popover] {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 1rem;
+    border: 0;
+    border-radius: 0;
+    background: rgba(15, 35, 45, 0.92);
+    color: rgba(250, 250, 250, 1);
+    overflow: auto;
+    overscroll-behavior: contain;
+}
+
+/* Scoped to :popover-open so the base rule cannot override the UA's
+   display:none while the popover is closed. */
+.waitlist-dialog[popover]:popover-open {
+    display: flex;
+    z-index: 9999;
+}
+
+/* The :target path is the no-JS fallback: href="#waitlist-dialog" makes the
+   dialog its own target. [data-js] opts out for good — see the script's note on
+   why a lingering :target cannot be trusted once JS is running. */
+.waitlist-dialog[popover]:target:not([data-js]) {
+    display: flex;
+    z-index: 9999;
+}
+
+.waitlist-dialog__panel {
+    position: relative;
+    /* sits above the scrim */
+    z-index: 1;
+    width: min(100%, 40rem);
+    margin: auto;
+    padding: 2rem;
+    border-radius: 1rem;
+    background: rgba(33, 58, 71, 1);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.45);
+}
+
+/* Invisible full-area click target behind the panel: click outside to dismiss. */
+.waitlist-dialog__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.waitlist-dialog__dismiss {
+    position: absolute;
+    inset-block-start: 0.5rem;
+    inset-inline-end: 0.5rem;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    font-size: 1.5rem;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.waitlist-dialog__dismiss:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.waitlist-dialog__dismiss:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+/* ── Which dismiss control is live ───────────────────────────────────────
+   Everything starts hidden; each state turns on only what can close it. */
+.waitlist-dialog__scrim,
+.waitlist-dialog__dismiss--link {
+    display: none;
+}
+
+/* No-JS :target path: the anchor × and the scrim navigate away from the
+   dialog's fragment, which releases :target and hides it. */
+.waitlist-dialog[popover]:target:not([data-js]):not(:popover-open) .waitlist-dialog__scrim,
+.waitlist-dialog[popover]:target:not([data-js]):not(:popover-open) .waitlist-dialog__dismiss--link {
+    display: grid;
+}
+
+/* On that path the invoker button is a no-op (the popover isn't open), so don't
+   offer a control that appears broken. */
+.waitlist-dialog[popover]:target:not([data-js]):not(:popover-open) .waitlist-dialog__dismiss--button {
+    display: none;
+}
+
+/* :popover-open path: the invoker button handles it, so the scrim is only needed
+   when JS is on (with JS off, an anchor cannot hide an open popover, but Escape
+   and the × button can). */
+.waitlist-dialog[popover][data-js]:popover-open .waitlist-dialog__scrim {
+    display: block;
+}
+</style>
+
+<script>
+const dialog = document.getElementById('waitlist-dialog')
+
+if (dialog instanceof HTMLElement) {
+  // Browsers do not re-evaluate :target after history.replaceState() changes the
+  // URL. So once the footer link has put #waitlist-dialog in the address bar, the
+  // :target rule above keeps matching forever — hidePopover() and Escape really do
+  // close the popover, but the stale :target repaints it, which reads as "the
+  // close button and Escape stopped working" (and it poisons the header button
+  // too, for the rest of the page visit). Flagging the element hands ownership
+  // of visibility entirely to :popover-open.
+  dialog.dataset.js = 'on'
+
+  const isOpen = () => dialog.matches(':popover-open')
+
+  // showPopover() throws InvalidStateError if it is already open.
+  const show = () => {
+    if (!isOpen()) dialog.showPopover()
+  }
+
+  const hide = () => {
+    if (isOpen()) dialog.hidePopover()
+  }
+
+  const stripHash = () => {
+    if (!window.location.hash) return
+    history.replaceState(
+      null,
+      '',
+      window.location.pathname + window.location.search
+    )
+  }
+
+  // Delegated, so controls added later (htmx swaps) are covered as well.
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return
+
+    // Open: the footer "SIGN UP" link. Redirected to showPopover() so the URL
+    // never gains a fragment — that is what keeps :target from going stale.
+    const openTrigger = event.target.closest('a[href="#waitlist-dialog"]')
+    if (openTrigger) {
+      event.preventDefault()
+      show()
+      return
+    }
+
+    // Close: the scrim and the anchor ×. Both are inert here in practice (CSS
+    // hides them whenever :popover-open is the visible state and JS is on... except
+    // the scrim), but they must never navigate and leave a hash behind.
+    const closeTrigger = event.target.closest('a[data-waitlist-close]')
+    if (closeTrigger && dialog.contains(closeTrigger)) {
+      event.preventDefault()
+      hide()
+      stripHash()
+    }
+  })
+
+  // Deep links (arriving at /#waitlist-dialog) and back/forward navigation.
+  const syncWithHash = () => {
+    if (window.location.hash !== '#waitlist-dialog') return
+    stripHash()
+    show()
+  }
+
+  syncWithHash()
+  window.addEventListener('hashchange', syncWithHash)
+}
+</script>

@@ -1,0 +1,77 @@
+---
+
+---
+
+<header>
+    <div class="logo">
+		<a href="/"><img src="/images/loqrs-logo-w-beta.png" alt="LOQRS" width="265" height="116" /></a>
+	</div>
+
+	<nav class="actions">
+        <button class="success purple" type="button" onclick="window.location.href='#how_it_works'">⚙️ How It Works</button>
+        <button class="success" type="button" popovertarget="waitlist-dialog" aria-haspopup="dialog">🔏 Join the Waitlist</button>
+	</nav>
+
+	<h1 class="slogan">Get a QR Locker</h1>
+</header>
+
+<style lang="scss">
+@use '../styles/variables' as *;
+
+header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 1.5rem;
+  width: 100%;
+  padding: 1.5rem;
+  z-index: 50;
+
+  @media (width < 40rem) {
+      grid-template-columns: none;
+      grid-template-rows: 1fr 1fr 1fr;
+      row-gap: 0;
+  }
+
+  .logo {
+    display: block;
+    justify-self: start;
+    max-width: $logo-max-width;
+    margin: 0;
+
+    a > img {
+        max-width: $logo-max-width;
+    }
+
+    @media (width < 40rem) {
+        justify-self: center;
+    }
+  }
+
+  .actions {
+    font-weight: bold;
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    @media (width < 40rem) {
+        flex-direction: column;
+        justify-items: center;
+        justify-self: center;
+        gap: 0;
+        row-gap: 0.8rem;
+    }
+  }
+
+  .slogan {
+    color: $text-color;
+    grid-column: 1 / -1;
+    justify-self: center;
+    text-align: center;
+    margin: 0;
+    @media (width < 40rem) {
+        font-size: 3rem;
+    }
+  }
+}
+</style>

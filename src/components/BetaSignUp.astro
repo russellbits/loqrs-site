@@ -1,0 +1,92 @@
+---
+interface Props {
+    /** Prefix for the input's id, so two instances never collide. */
+    idPrefix?: string;
+}
+
+const { idPrefix = 'signup' } = Astro.props;
+const inputId = `${idPrefix}-email`;
+const feedbackId = `${idPrefix}-feedback`;
+const honeypotId = `${idPrefix}-website`;
+---
+
+<div class="beta-cta">
+    <h2>Give us your email one time and we will send you a coupon for a free web locker when we launch!</h2>
+    <div>
+        <form
+            class="signup-form"
+            action="/api/subscribe.php"
+            method="POST"
+            hx-post="/api/subscribe.php"
+            hx-target={`#${feedbackId}`}
+            hx-swap="innerHTML"
+            hx-disabled-elt="find input, find button"
+        >
+            <!-- Pass idPrefix so PHP knows which input ID to reset via OOB swap -->
+            <input type="hidden" name="idPrefix" value={idPrefix} />
+
+            <div class="input-group stack-mobile">
+                <input
+                    id={inputId}
+                    name="email"
+                    type="email"
+                    placeholder="myemail@onetime.use"
+                    autocomplete="email"
+                    aria-label="Email address"
+                    required
+                />
+                <button type="submit">Reserve Coupon</button>
+            </div>
+
+            <!-- CSS Honeypot: off-screen so bots fill it out while humans and screen readers skip it -->
+            <div class="hp-field" aria-hidden="true">
+                <label for={honeypotId}>Website</label>
+                <input
+                    type="text"
+                    id={honeypotId}
+                    name="website"
+                    tabindex="-1"
+                    autocomplete="off"
+                />
+            </div>
+
+            <div id={feedbackId} class="signup-feedback" aria-live="polite"></div>
+        </form>
+    </div>
+
+    <p><i>You will never get another email from us—unless you just want us to write.</i></p>
+</div>
+
+<style>
+.beta-cta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    text-align: center;
+    width: 100%;
+}
+
+.input-group {
+    width: 100%;
+    max-width: 600px;
+    margin-inline: auto;
+}
+
+.hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.signup-form button[disabled] {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.signup-feedback:not(:empty) {
+    margin-top: 0.75rem;
+}
+</style>

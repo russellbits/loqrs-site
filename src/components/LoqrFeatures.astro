@@ -1,0 +1,108 @@
+---
+
+---
+
+<div class="feature">
+	<div class="sticker"><img src="/images/sticker-one-time-use.png" class="one-time-use" /></div>
+	<h4>This locker will self-destruct!</h4>
+	<p>Store your digital stuff in a locker and after anyone accesses it, the contents disppear! (Or set the number of tries.)</p>
+</div>
+<div class="feature">
+    <div class="sticker"><img src="/images/sticker-public-trove.png" class="public-trove" /></div>
+	<h4>One solution, everybody wins!</h4>
+	<p>Store your digital treasure in a locker and after anyone accesses it, the contents will be available to everyone—great for games!</p>
+</div>
+<div class="feature">
+    <div class="sticker"><img src="/images/sticker-device-paired.png" class="device-paired" /></div>
+	<h4>Personal storage on your device.</h4>
+	<p>Store something in a locker that can only be accessed via QR scan on <i>only the device that created</i> the locker.</p>
+</div>
+<div class="feature">
+    <div class="sticker"><img src="/images/sticker-passphrase-linked.png" class="passphrase-linked"/></div>
+	<h4>Open seasame!</h4>
+	<p>Store your digital stuff in a locker and make sure no one can access it without the QR key AND a passphrase.</p>
+</div>
+<div class="feature">
+    <div class="sticker"><img src="/images/sticker-time-lock.png" class="time-lock"/></div>
+	<h4>Do not open until Christmas.</h4>
+	<p>Store any digital files in a locker and have it only be accessible with a QR key after or before a set time.</p>
+</div>
+
+<style lang="scss">
+.feature {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 0px; /* Adjust to 0px for zero gap */
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0;
+  margin: 0.5rem;
+  width: 280px;
+
+  .sticker img {
+      display: block; /* Removes the ~4px inline baseline gap under images */
+      margin: 0 auto;
+      max-width: 100%;
+  }
+
+  p {
+     line-height: 1.4;
+     padding: 0;
+     margin: 0; /* Strips default browser margins */
+  }
+
+  h4 {
+    line-height: 1;
+    padding: 0;
+    margin: 1rem;
+  }
+}
+
+.feature:nth-child(1) {
+    transform: translateX(-120px);
+}
+.feature:nth-child(2) {
+    transform: translate(120px);
+    margin-top: -100px;
+}
+.feature:nth-child(3) {
+    transform: translate(-120px);
+    margin-top: -100px;
+}
+.feature:nth-child(4) {
+    transform: translate(120px);
+    margin-top: -100px;
+}
+.feature:nth-child(5) {
+    transform: translate(-120px);
+    margin-top: -100px;
+}
+
+.one-time-use{
+    transform: rotate(3deg);
+}
+.public-trove {
+    transform: rotate(-3deg);
+}
+.device-paired {
+    transform: rotate(3deg);
+}
+.passphrase-linked {
+    transform: rotate(-4deg);
+}
+.time-lock {
+    transform: rotate(3deg);
+}
+
+@media (max-width: 40rem) {
+    .feature:nth-child(1),
+    .feature:nth-child(2),
+    .feature:nth-child(3),
+    .feature:nth-child(4),
+    .feature:nth-child(5) {
+        transform: none;
+        margin-top: 1rem;
+    }
+}
+</style>
