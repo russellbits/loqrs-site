@@ -1,6 +1,10 @@
 ---
+import SiteHeader from '@components/SiteHeader.astro'
 import LockersRow from '@components/LockersRow.astro'
-import SignUp from '@components/SignUp.astro';
+import UserGuide from '@components/UserGuide.astro'
+import LoqrFeatures from '@components/LoqrFeatures.astro'
+import BetaSignUp from '@components/BetaSignUp.astro';
+import WaitlistDialog from '@components/WaitlistDialog.astro';
 import '@drop-in/graffiti'
 import "@drop-in/graffiti/themes/lumen";
 import '../styles/house.scss';
@@ -19,100 +23,48 @@ import '../styles/house.scss';
 		<meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<script src="https://unpkg.com/htmx.org@2.0.4"></script>
 		<title>LOQRS</title>
 	</head>
 	<body class="theme-lumen">
 	<div class="site-border">
 		<main>
-			<header>
-			    <div class="logo">
-					<a href="/"><img src="/images/loqrs-logo-w-beta.png" alt="LOQRS" width="265" height="116" /></a>
-				</div>
-
-				<nav class="actions">
-                    <a href="#how_it_works">How It Works</a>
-                    <button class="success" type="button" popovertarget="waitlist-dialog" aria-haspopup="dialog">🔏 Join the Waitlist</button>
-				</nav>
-
-				<h1 class="slogan">Get a QR Locker</h1>
-			</header>
+		    <SiteHeader />
 			<section class="lockers-row">
 			    <LockersRow />
 			</section>
-			<section class="banner">
+			<section id="how_it_works" class="banner">
 			    <h1>How does it work?</h1>
 			</section>
 			<section class="guide">
-			    <!--<img src="/images/loqrs-marketing-guide-plastique.jpg" width="1443" />-->
-			    <div class="guide-grid">
-			        <div class="guide-step">
-			            <img class="guide-art" src="/images/loqrs-guide-step-1.png" alt="Monitor and phone showing a QR locker" width="275" height="203" />
-			            <img class="guide-number" src="/images/guide-number-1.png" alt="Step 1" width="215" height="215" />
-			            <h4>Check out a QR locker</h4>
-			        </div>
-			        <div class="guide-step">
-			            <img class="guide-art" src="/images/loqrs-guide-step-2.png" alt="Files placed into an open locker" width="300" height="346" />
-			            <img class="guide-number" src="/images/guide-number-2.png" alt="Step 2" width="215" height="215" />
-			            <h4>Place your files in your locker</h4>
-			        </div>
-			        <div class="guide-step">
-			            <img class="guide-art" src="/images/loqrs-guide-step-3.png" alt="Locked locker with a QR key to keep or share" width="320" height="254" />
-			            <img class="guide-number" src="/images/guide-number-3.png" alt="Step 3" width="215" height="215" />
-			            <h4>Receive your QR Key</h4>
-			        </div>
-			        <div class="guide-step">
-			            <img class="guide-art" src="/images/loqrs-guide-step-4.png" alt="Phone scanning a QR key to unlock" width="320" height="206" />
-			            <img class="guide-number" src="/images/guide-number-4.png" alt="Step 4" width="215" height="215" />
-			            <h4>Scan the QR key and gain access</h4>
-			        </div>
-			    </div>
+				<UserGuide />
 			</section>
-			<section class="banner">
-			    <div class="beta-cta">
-			        <h2>Give us your email one time and we will send you a coupon for a free web locker when we launch!</h2>
-					<SignUp />
-				</div>
+			<section id="join_us" class="banner">
+			    <BetaSignUp />
 			</section>
 			<section class="loqr-types">
-			    <div class="feature">
-					<div class="sticker"><img src="/images/sticker-one-time-use.png" /></div>
-					<h4>This locker will self-destruct!</h4>
-					<p>Store your digital stuff in a locker and after anyone accesses it, the contents disppear! (Or set the number of tries.)</p>
-				</div>
-				<div class="feature">
-				    <div class="sticker"><img src="/images/sticker-public-trove.png" /></div>
-					<h4>One solution, everybody wins!</h4>
-					<p>Store your digital treasure in a locker and after anyone accesses it, the contents will be available to everyone—great for games!</p>
-				</div>
-				<div class="feature">
-				    <div class="sticker"><img src="/images/sticker-device-paired.png" /></div>
-					<h4>Personal storage on your device.</h4>
-					<p>Store something in a locker that can only be accessed via QR scan on only the device that created the locker.</p>
-				</div>
-				<div class="feature">
-				    <div class="sticker"><ing src="/images/sticker-device-passphrase-linked.png"/></div>
-					<h4>Open seasame!</h4>
-					<p>Store your digital stuff in a locker and make sure no one can access it without the QR key AND a passphrase.</p>
-				</div>
-				<div class="feature">
-				    <div class="sticker"><img src="/images/sticker-time-lock.png"/></div>
-					<h4>Do not open until Christmas.</h4>
-					<p>Store any digital files in a locker and have it only be accessible with a QR key after a set time.</p>
-				</div>
+			    <LoqrFeatures />
 			</section>
 			<section class="banner">
 			    <h1>No But, Really, Seriously, what is this for anyway?</h1>
 			</section>
 			<section class="mission">
 			    <p>We like trading files for various reasons and sometimes the easiest way to do that is with a web page. But maybe you want to limit access to that page. Every sharing service we have run in to makes you create an account (or turn over other credentials) and turn over a credit card and charges recurring fees and then bombards you with emails about features you don’t care about for months.</p>
-				<p>This is a one-time servce. You pay us, we excrypt your files and give you the encryption key in the form of a QR code. It comes with some risks. If you lose your key, that’s it. We can’t get to your files. Our system is designed such that we can’t get to your files, which also means we don’t know whose files belong to whom. It’s kind of the idea. It’s a web locker. Forget the combination or lost the key… whoops.</p>
+				<p>This is a one-time service. You pay us, we encrypt your files and give you the encryption key in the form of a QR code. It comes with some risks. If you lose your key, that’s it. We can’t get to your files. Our system is designed such that we can’t get to your files, which also means we don’t know whose files belong to whom. <i>That is the idea.</i> It’s a web locker. Forget the combination or lose the key… whoops.</p>
 				<p>But also… you don’t need to know who is getting the files if they have a key. You could give out ten keys to the same locker for a club or a class. You could have a store giveaway that takes place only at the store. You could distirbute music or book files that you don’t want freely available.</p>
-				<h4>We think there’s a ton of uses for QR key lockers and there’s several different kinds, too!</h4>
+				<h4>We think there’s a ton of uses for QR key lockers and we are working on new ones, too!—like a safety deposit style loqr that requires two simultaneous keys!</h4>
+				<h1><a href="#waitlist-dialog">Sign up</a> & Stay Tuned!</h1>
 			</section>
+			<footer>
+			    <p><b>Made with 🤍 by <a href="https://troped.com">Troped Design</a> with <a href="https://astro.build/">Astro</a></b></p>
+			</footer>
 			<div class="graffiti">
 			    <img src="/images/graffiti.png" alt="Graffiti reads: No Accounts, No Passwords!" width="585" height="251" />
 			</div>
 		</main>
 	</div>
+	<!-- closeHref: where the dialog's no-JS dismiss controls land the page.
+	     #join_us holds the inline BetaSignUp form, i.e. what the visitor wanted. -->
+	<WaitlistDialog closeHref="#join_us" />
 	</body>
 </html>

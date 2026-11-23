@@ -46,6 +46,16 @@ h1 {
     font-family: 'chunkfive', sans-serif;
     font-size: 5rem;
     text-transform: uppercase;
+    padding: 0;
+    margin: 0;
+
+    a {
+        font-size: 5rem;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
 }
 
 h2 {
@@ -64,4 +74,9 @@ h4 {
     font-family: 'IBM Plex Serif', "Georgia", sans-serif;
     font-size: 1.8rem;
     line-height: 1.9rem;
+}
+
+p {
+    font-family: "IBM Plex Serif", "Georgia", serif;
+    font-weight: normal;
 }
