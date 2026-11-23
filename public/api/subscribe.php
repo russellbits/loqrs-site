@@ -28,12 +28,11 @@ $rawPrefix = $_POST['idPrefix'] ?? 'signup';
 $idPrefix = preg_replace('/[^a-zA-Z0-9_-]/', '', $rawPrefix) ?: 'signup';
 $inputId = htmlspecialchars($idPrefix . '-email', ENT_QUOTES, 'UTF-8');
 
-// 3. Load external DB config (one directory above public root)
-$configPath = __DIR__ . '/../../../db-config.php';
-if (!file_exists($configPath)) {
-    echo '<p class="msg-error">Server configuration error. Please try again later.</p>';
-    exit;
-}
+$configPath = file_exists(__DIR__ . '/../../../db-config.php')
+    ? __DIR__ . '/../../../db-config.php'
+    : __DIR__ . '/../../db-config.php';
+
+// require_once $configPath;
 
 $db = require $configPath;
 

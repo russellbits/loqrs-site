@@ -1,6 +1,6 @@
 # build output
-dist/
 build/
+
 # generated types
 .astro/
 
@@ -13,9 +13,11 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# My design work
+# Design and Planning
 .design/
 scratch.md
+.superpowers/
+docs
 
 # environment variables
 .env
@@ -23,7 +25,3 @@ scratch.md
 
 # macOS-specific files
 .DS_Store
-
-# settings folders
-.superpowers/
-docs

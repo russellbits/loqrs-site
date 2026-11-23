@@ -28,7 +28,7 @@ jobs:
       - name: Deploy build/ to LAMP server via rsync
         uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avzr --delete --exclude='.htaccess' --exclude='api/' --exclude='db-config.php'
+          switches: -avzr --delete --exclude='.htaccess' --exclude='db-config.php'
           path: build/
           remote_path: ${{ secrets.TARGET_DIR }}
           remote_host: ${{ secrets.SSH_HOST }}
