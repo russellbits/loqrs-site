@@ -1,4 +1,4 @@
-name: Build and Deploy trunk to LAMP (http://loqrs.site)
+name: Build and Deploy Astro to LAMP
 
 on:
   push:
@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Checkout trunk
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version-file: 'package.json'
           cache: 'npm'
 
       - name: Install dependencies
@@ -29,6 +29,7 @@ jobs:
         uses: burnett01/rsync-deployments@7.0.1
         with:
           switches: -avzr --delete --exclude='.htaccess' --exclude='api/' --exclude='db-config.php'
+          rsh: ssh -o StrictHostKeyChecking=no
           path: build/
           remote_path: ${{ secrets.TARGET_DIR }}
           remote_host: ${{ secrets.SSH_HOST }}
