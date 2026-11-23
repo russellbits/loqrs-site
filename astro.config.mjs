@@ -8,5 +8,15 @@ export default defineConfig({
   outDir: './build',
   server: {
     port: 1217,
-  }
+  },
+  vite: {
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://loqrs-site.test',
+          changeOrigin: true,
+        },
+      },
+    },
+  },
 });
